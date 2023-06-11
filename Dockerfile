@@ -2,7 +2,9 @@
 FROM nvidia/cuda:11.8.0-base-ubuntu18.04
 
 # パッケージ類のインストール
-RUN apt update && apt install -y curl 
+RUN apt update && apt install -y curl \
+    xvfb \
+    x11vnc
 
 ENV HOME=/home
 WORKDIR /home
@@ -15,11 +17,11 @@ RUN curl -so ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-lates
 ENV PATH=/home/miniconda/bin:$PATH
 ENV CONDA_AUTO_UPDATE_CONDA=false
 
-# # Create a Python 3.7 environment
+# # Create a Python 3.8 environment
 RUN conda install conda-build \
-    && conda create -y --name py37 python=3.7.3 \
+    && conda create -y --name py38 python=3.8.0 \
     && conda clean -ya
-ENV CONDA_DEFAULT_ENV=py37
+ENV CONDA_DEFAULT_ENV=py38
 ENV CONDA_PREFIX=/home/miniconda/envs/$CONDA_DEFAULT_ENV
 ENV PATH=$CONDA_PREFIX/bin:$PATH
 
